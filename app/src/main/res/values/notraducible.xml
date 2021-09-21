@@ -1,0 +1,22 @@
+<resources>
+    <string name="Prueba_publicidad" translatable="false">ca-pub-111221</string>
+    <string name="Prueba_Banner" translatable="false">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="Id_De_AdMob" translatable="false">ca-app-pub-3120121289944186~2117803122</string>
+    
+    <!--Publicidad Real-->
+    <string name="corazones" translatable="false">ca-app-pub-3120121289944186/5147291145</string>
+    <string name="intersical" translatable="false">ca-app-pub-3120121289944186/3915994164</string>
+    <string name="BannerLv1" translatable="false">ca-app-pub-3120121289944186/4360823089</string>
+    <string name="BannerSeleccion" translatable="false">ca-app-pub-3120121289944186/2945386759</string>
+    <!--Fin Publicidad-->
+
+    <!-- Botones  NO TRADUCIBLES-->
+
+    <string name="btn_respuesta" translatable="false">0</string>
+
+    <!--Fin Botones NO TRADUCIBLES-->
+
+    <!--ContentDescription-->
+    <string name="content" translatable="false">Todo</string>
+
+</resources>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sumas Y Restas</string>
+    <string name="valorar">Valorar</string>
+    <string name="nunca">Nunca</string>
+    <string name="tarde">Más Tarde</string>
+    <string name="titulo_valoranos">Valoranos</string>
+    <string name="configuracion">Configuración</string>
+    <string name="siguiente">Siguiente</string>
+    <string name="musica">Música</string>
+    <string name="sonido">Efectos</string>
+    <string name="politica">Política de Privacidad</string>
+    <string name="terminos">Términos de Uso</string>
+    <string name="titulo_seleccion">Menú</string>
+    <string name="mensaje_valoranos">Para nosotros es muy importante conocer tu opinión, por eso nos gustaría que dejaras una reseña en la tienda de Google con tus comentarios sobre nuestra app</string>
+    <string name="mensaje_politica">Esta app respeta la privacidad de los niños. No recopilamos informacion personal de niños con nuestra aplicacion, sin embargo podemos recopilar informacion sobre el estado de la aplicacion solo con el fin de mejorar nuestro producto. Esta aplicacion cumple con la Ley de proteccion y privacidad en línea para niños(COPPA) y el reglamento de proteccion de datos de la UE(GDPR).</string>
+    <string name="vale">Vale</string>
+    <string name="info">Saber más</string>
+    <string name="usuarioPrimum">Se removio la publicidad</string>
+    <string name="proximo">Proximamente</string>
+    <string name="dialogo_combinadas">Selecciona Operaciones</string>
+    <string name="seleccione_mas">Porfavor selecciona más de una opción</string>
+    <string name="error">"Error: "</string>
+    <string name="buy_canceled">Compra Cancelada</string>
+    <string name="compra_pendiente">Compra Pendiente</string>
+    <string name="sums">Sumas</string>
+    <string name="rest">Restas</string>
+    <string name="multiplication">Multiplicación</string>
+    <string name="division">División</string>
+    <string name="combinadas" translatable="false">Combinadas</string>
+    <string name="learn">Aprender</string>
+    <string name="stats">Estadisticas</string>
+    <string name="lose">Perdiste!</string>
+    <string name="tittle_ads">Mirar Publicidad</string>
+    <string name="ads_description">A continuación se mostrará un anuncio y se le dara una recompensa si lo ve hasta el final.</string>
+    <string name="cancel">Cancelar</string>
+    <string name="retry_later">Intentalo de nuevo más tarde</string>
+</resources>

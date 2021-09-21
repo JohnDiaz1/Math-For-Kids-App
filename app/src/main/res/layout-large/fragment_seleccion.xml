@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:maxads="http://schemas.applovin.com/android/1.0"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparente"
+    tools:context=".Seleccion">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fondoinicio"
+            android:orientation="vertical"
+            android:weightSum="8">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/textGrid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/sigmar_one"
+                    android:gravity="center"
+                    android:text="@string/titulo_seleccion"
+                    android:textColor="@android:color/white"
+                    android:textSize="100sp"
+                    app:autoSizeMaxTextSize="60sp"
+                    app:autoSizeMinTextSize="30sp"
+                    app:autoSizeTextType="uniform" />
+
+            </RelativeLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/mainGrid"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="50dp"
+                android:layout_weight="10"
+                android:padding="14dp"
+                app:alignmentMode="alignMargins"
+                app:columnCount="2"
+                app:rowCount="3"
+                app:useDefaultMargins="true">
+
+                <ImageButton
+                    android:id="@+id/sumas"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_sumas"
+                    android:contentDescription="@string/sums"
+                    app:layout_columnWeight="1.6"
+                    app:layout_rowWeight="1.6" />
+
+                <ImageButton
+                    android:id="@+id/restas"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_resta"
+                    android:contentDescription="@string/rest"
+                    app:layout_columnWeight="1.6"
+                    app:layout_rowWeight="1.6" />
+
+                <ImageButton
+                    android:id="@+id/multiplicacion"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_multi"
+                    android:contentDescription="@string/multiplication"
+                    app:layout_columnWeight="1.6"
+                    app:layout_rowWeight="1.6" />
+
+                <ImageButton
+                    android:id="@+id/division"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_div"
+                    android:contentDescription="@string/division"
+                    app:layout_columnWeight="1.6"
+                    app:layout_rowWeight="1.6" />
+
+                <ImageButton
+                    android:id="@+id/combinadas"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/combinados"
+                    android:contentDescription="@string/combinadas"
+                    app:layout_columnWeight="1.6"
+                    app:layout_rowWeight="1.6" />
+
+                <ImageButton
+                    android:id="@+id/config"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/boton_menu"
+                    android:contentDescription="@string/configuracion"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+                <ImageButton
+                    android:id="@+id/aprender"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/proximamente"
+                    android:contentDescription="@string/aprendea"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+                <ImageButton
+                    android:id="@+id/btn_apps"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_apps"
+                    android:clickable="false"
+                    android:contentDescription="@string/sums"
+                    android:visibility="invisible"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+
+
+            </androidx.gridlayout.widget.GridLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <com.applovin.mediation.ads.MaxAdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/banner_height"
+        android:layout_gravity="bottom|center|center_horizontal|center_vertical"
+        android:gravity="bottom"
+        maxads:adUnitId="e2147ebbd1ac104e">
+    </com.applovin.mediation.ads.MaxAdView>
+
+</FrameLayout>

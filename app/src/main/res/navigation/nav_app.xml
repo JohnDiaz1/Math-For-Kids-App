@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_app"
+    app:startDestination="@id/seleccion">
+
+    <fragment
+        android:id="@+id/seleccion"
+        android:name="com.towo.AnimalesApp.Seleccion"
+        android:label="fragment_seleccion"
+        tools:layout="@layout/fragment_seleccion" >
+        <action
+            android:id="@+id/action_seleccion_to_sumas2"
+            app:destination="@id/sumas2" />
+        <action
+            android:id="@+id/action_seleccion_to_restas2"
+            app:destination="@id/restas2" />
+        <action
+            android:id="@+id/action_seleccion_to_division2"
+            app:destination="@id/division2" />
+        <action
+            android:id="@+id/action_seleccion_to_combinadas2"
+            app:destination="@id/combinadas2" />
+        <action
+            android:id="@+id/action_seleccion_to_multiplicacion2"
+            app:destination="@id/multiplicacion2" />
+        <action
+            android:id="@+id/action_seleccion_to_stats2"
+            app:destination="@id/stats2" />
+    </fragment>
+    <fragment
+        android:id="@+id/sumas2"
+        android:name="com.towo.AnimalesApp.Fragments.Sumas"
+        android:label="sumas_juego"
+        tools:layout="@layout/sumas_juego" >
+        <action
+            android:id="@+id/action_sumas2_to_seleccion"
+            app:destination="@id/seleccion" />
+    </fragment>
+    <fragment
+        android:id="@+id/restas2"
+        android:name="com.towo.AnimalesApp.Fragments.Restas"
+        android:label="restas_juego"
+        tools:layout="@layout/restas_juego" >
+        <action
+            android:id="@+id/action_restas2_to_seleccion"
+            app:destination="@id/seleccion" />
+    </fragment>
+    <fragment
+        android:id="@+id/multiplicacion2"
+        android:name="com.towo.AnimalesApp.Fragments.Multiplicacion"
+        android:label="multiplicacion_juego"
+        tools:layout="@layout/multiplicacion_juego" >
+        <action
+            android:id="@+id/action_multiplicacion2_to_seleccion"
+            app:destination="@id/seleccion" />
+    </fragment>
+    <fragment
+        android:id="@+id/division2"
+        android:name="com.towo.AnimalesApp.Fragments.Division"
+        android:label="division_juego"
+        tools:layout="@layout/division_juego" >
+        <action
+            android:id="@+id/action_division2_to_seleccion"
+            app:destination="@id/seleccion" />
+    </fragment>
+    <fragment
+        android:id="@+id/combinadas2"
+        android:name="com.towo.AnimalesApp.Fragments.Combinadas"
+        android:label="combinadas_juego"
+        tools:layout="@layout/combinadas_juego" >
+        <action
+            android:id="@+id/action_combinadas2_to_seleccion"
+            app:destination="@id/seleccion" />
+    </fragment>
+    <fragment
+        android:id="@+id/stats2"
+        android:name="com.towo.AnimalesApp.Fragments.Stats"
+        android:label="stats_fragment"
+        tools:layout="@layout/stats_fragment" >
+        <action
+            android:id="@+id/action_stats2_to_seleccion"
+            app:destination="@id/seleccion" />
+    </fragment>
+</navigation>

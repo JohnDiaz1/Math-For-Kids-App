@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:maxads="http://schemas.applovin.com/android/1.0"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.Stats">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/my_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+
+            <TextView
+                android:id="@+id/toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/fredoka_one"
+                android:text="@string/stats"
+                android:textColor="#DFFFFFFF"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                tools:layout_editor_absoluteX="189dp"
+                tools:layout_editor_absoluteY="18dp" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@drawable/fondojuego"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
+
+            <TextView
+                android:id="@+id/imageView_NumUno"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="100dp"
+                android:contentDescription="@string/app_name"
+                android:fontFamily="@font/fredoka_one"
+                android:gravity="center"
+                android:text="@string/btn_respuesta"
+                android:textColor="#FFFFFF"
+                android:textSize="80sp" />
+
+            <ImageView
+                android:id="@+id/imageView_signo"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_alignBottom="@+id/imageView_NumUno"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="-2dp"
+                android:contentDescription="@string/app_name"
+                app:srcCompat="@drawable/division" />
+
+
+            <TextView
+                android:id="@+id/imageView_NumDos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/imageView_NumUno"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="20dp"
+                android:contentDescription="@string/app_name"
+                android:fontFamily="@font/fredoka_one"
+                android:gravity="center"
+                android:text="@string/btn_respuesta"
+                android:textColor="#FFFFFF"
+                android:textSize="80sp"
+                tools:ignore="RelativeOverlap" />
+
+            <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="100dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp">
+
+                    <Button
+                        android:id="@+id/R1"
+                        android:layout_width="90dp"
+                        android:layout_height="110dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_round"
+                        android:text="@string/btn_respuesta"
+                        android:textColor="#FFFFFF"
+                        android:textSize="36sp" />
+
+                    <Button
+                        android:id="@+id/R2"
+                        android:layout_width="90dp"
+                        android:layout_height="110dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_round"
+                        android:text="@string/btn_respuesta"
+                        android:textColor="#FFFFFF"
+                        android:textSize="36sp" />
+
+                    <Button
+                        android:id="@+id/R3"
+                        android:layout_width="90dp"
+                        android:layout_height="110dp"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/button_round"
+                        android:text="@string/btn_respuesta"
+                        android:textColor="#FFFFFF"
+                        android:textSize="36sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/btnSiguiente"
+                        android:layout_width="150dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/btn_lv3"
+                        android:text="@string/siguiente"
+                        android:textColor="#FFFFFF"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.applovin.mediation.ads.MaxAdView
+        android:id="@+id/banner_juego"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/banner_height"
+        android:layout_gravity="bottom|center|center_horizontal|center_vertical"
+        android:gravity="bottom"
+        maxads:adUnitId="27f73791657b67c5">
+
+    </com.applovin.mediation.ads.MaxAdView>
+
+</FrameLayout>

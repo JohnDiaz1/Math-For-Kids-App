@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">Sums and Rest</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <!--Strings-->
+
+    <string name="lv1" translatable="false">Easy</string>
+    <string name="lv2" translatable="false">Normal</string>
+    <string name="lv3" translatable="false">Hard</string>
+    <string name="sums">Sums</string>
+    <string name="rest">Subtraction</string>
+    <string name="multiplication">Multiplication</string>
+    <string name="division">Division</string>
+    <string name="combinadas">Combined</string>
+    <string name="aceptar" translatable="false">Aceptar</string>
+    <string name="nunca">Never</string>
+    <string name="mensaje_valoranos">For us it is very important to know your opinion, that is why we would like you to leave a review in the Google store with your comments about our app</string>
+    <string name="titulo_dialogo" translatable="false">Nivel de Dificultad</string>
+    <string name="musica">Music</string>
+    <string name="politica">Privacy Policy</string>
+    <string name="titulo_seleccion">Menu</string>
+    <string name="aprendea" translatable="false">Aprende A:</string>
+    <string name="dividir" translatable="false">Dividir</string>
+    <string name="multiplicar" translatable="false">Multiplicar</string>
+    <string name="mensaje_politica">This app respects the privacy of children. We do not collect personal information from children with our application, however we may collect information about the status of the application only for the purpose of improving our product. This application complies with the Children\'s Online Protection and Privacy Act (COPPA) and the EU Data Protection Regulation (GDPR).</string>
+    <string name="tarde">Later</string>
+    <string name="vale">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="info">More information</string>
+    <string name="configuracion">Settings</string>
+    <string name="siguiente">Next</string>
+    <string name="sonido">Efects</string>
+    <string name="titulo_valoranos">Rate Us</string>
+    <string name="terminos">Terms of Use</string>
+    <string name="valorar">Rate</string>
+    <string name="usuarioPrimum">Advertising was removed</string>
+    <string name="compra_pendiente">Purchase is pending. Please Complete Transaction</string>
+    <string name="proximo">Coming Soon</string>
+    <string name="dialogo_combinadas">Select Operation</string>
+    <string name="seleccione_mas">Please select more one a option</string>
+    <string name="buy_canceled">Purchase Canceled</string>
+    <string name="error">Error: </string>
+    <string name="stats">Stats</string>
+    <string name="learn">Learn</string>
+    <string name="time" translatable="false">00</string>
+    <string name="lose">You Lose!</string>
+
+    <string name="retry_later">Try Again Later</string>
+    <string name="tittle_ads">Show Ads</string>
+    <string name="ads_description">An ad will then be shown and you will be given a reward if you watch it through to the end.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+
+    <!-- End Statement Strings -->
+
+
+</resources>

@@ -1,0 +1,49 @@
+{
+  "project_info": {
+    "project_number": "1925804920",
+    "firebase_url": "https://animalesapp-db1e3.firebaseio.com",
+    "project_id": "animalesapp-db1e3",
+    "storage_bucket": "animalesapp-db1e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1925804920:android:5c87152f92850e24d5ce8d",
+        "android_client_info": {
+          "package_name": "com.towo.AnimalesApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1925804920-sv8gnr8vv88376i83fpkeflk0f4fl5oh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.towo.AnimalesApp",
+            "certificate_hash": "113f7df0b2f64ba1a1de350c1a1cd29ec9b1acc9"
+          }
+        },
+        {
+          "client_id": "1925804920-1kan7ijihu4mv8uk27r72r9j70gg8c8m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7AehAPr1cFiGiNadOWVn4BSMPFW09Wyk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1925804920-1kan7ijihu4mv8uk27r72r9j70gg8c8m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-3120121289944186~2117803122"
+    }
+  ],
+  "configuration_version": "1"
+}
