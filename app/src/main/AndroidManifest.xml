@@ -10,9 +10,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
 
 
     <application
+        android:name="androidx.multidex.MultiDexApplication"
         android:networkSecurityConfig="@xml/network_security_config"
         android:allowBackup="true"
         android:fullBackupContent="true"
@@ -28,7 +30,8 @@
             android:hardwareAccelerated="true"
             android:name=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -42,10 +45,6 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-3120121289944186~2117803122" />
-        <meta-data
-            android:name="applovin.sdk.key"
-            android:value="LGJb2N_O2AUMyUaLEkHNXDBedPER7neqaC1USC_8Tm5xA18NhqndDzR-teUIVZkQ04uhku4oq91_a2X4WIAPaq"/>
-
         <service
             android:name=".MyFirebaseMessagingService"
             android:exported="false">

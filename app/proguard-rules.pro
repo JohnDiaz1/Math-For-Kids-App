@@ -12,6 +12,22 @@
 #   public *;
 #}
 
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
+}
+-keep public class com.google.android.gms.ads.** {
+   public *;
+}
+-keep class com.ironsource.adapters.** { *;
+}
+-dontwarn com.ironsource.mediationsdk.**
+-dontwarn com.ironsource.adapters.**
+-keepattributes JavascriptInterface
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
+
+
 # Uncomment this to preserve the line number information for
 # debugging stack traces.
 #-keepattributes SourceFile,LineNumberTable

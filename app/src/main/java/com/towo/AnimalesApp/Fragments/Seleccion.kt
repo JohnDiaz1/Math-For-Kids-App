@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,20 +17,18 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.android.billingclient.api.*
 import com.android.billingclient.api.BillingClient.SkuType.INAPP
-import com.applovin.mediation.MaxAd
-import com.applovin.mediation.MaxAdListener
-import com.applovin.mediation.MaxError
-import com.applovin.mediation.ads.MaxAdView
-import com.applovin.mediation.ads.MaxInterstitialAd
 import com.google.android.play.core.review.ReviewManagerFactory
+import com.ironsource.mediationsdk.ISBannerSize
+import com.ironsource.mediationsdk.IronSource
+import com.ironsource.mediationsdk.IronSourceBannerLayout
+import com.ironsource.mediationsdk.logger.IronSourceError
+import com.ironsource.mediationsdk.sdk.InterstitialListener
 import com.towo.AnimalesApp.Fragments.Combinadas
 import com.towo.AnimalesApp.Interfaces.ReemplazaFragment
 import com.towo.AnimalesApp.Interfaces.Sonido
-import java.util.concurrent.TimeUnit
-import kotlin.math.pow
 
 
-class Seleccion : Fragment(), PurchasesUpdatedListener, MaxAdListener {
+class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,7 +51,8 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, MaxAdListener {
     private lateinit var combinadas: ImageButton
     private lateinit var otherApps: ImageButton
     private lateinit var acceptButton: Button
-    private lateinit var adView: MaxAdView
+    private lateinit var bannerContainer: FrameLayout
+    private lateinit var banner: IronSourceBannerLayout
     private lateinit var closeDialog: ImageView
 
     private lateinit var musicButton: ToggleButton
@@ -71,8 +69,6 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, MaxAdListener {
     private var info: Boolean = false
     private var ads: Boolean = true
     private var seleccion: BooleanArray = booleanArrayOf(false, false, false, false)
-    private var intersitial: MaxInterstitialAd? = null
-    private var retryAttempt = 0.0
 
     private var navController: NavController? = null
 
@@ -91,7 +87,7 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, MaxAdListener {
         super.onViewCreated(view, savedInstanceState)
 
         //   fragmentAprender = Aprender()
-        adView = view.findViewById(R.id.adView)
+        bannerContainer = view.findViewById(R.id.bannerContainer)
         sumas = view.findViewById(R.id.sumas)
         restas = view.findViewById(R.id.restas)
         multiplicacion = view.findViewById(R.id.multiplicacion)
@@ -159,15 +155,13 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, MaxAdListener {
 
     private fun initAds() {
         if (ads) {
-            adView.loadAd()
-            adView.visibility = View.VISIBLE
-            adView.stopAutoRefresh()
+            banner = IronSource.createBanner(activity, ISBannerSize.BANNER)
+            val layoutParams: FrameLayout.LayoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+            FrameLayout.LayoutParams.WRAP_CONTENT)
+            bannerContainer.addView(banner, 0, layoutParams)
+            IronSource.loadBanner(banner)
 
-            intersitial = MaxInterstitialAd("38ad8d51efcc885b", activity)
-            intersitial!!.setListener(this)
-
-            // Load the first ad
-            intersitial!!.loadAd()
+            IronSource.loadInterstitial()
         }
     }
 
@@ -466,9 +460,10 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, MaxAdListener {
     private fun intersicial() {
     Thread {
         if (ads) {
-            if (intersitial!!.isReady) {
+            if (IronSource.isInterstitialReady()) {
+
                 activity?.runOnUiThread {
-                        intersitial!!.showAd()
+                    IronSource.showInterstitial("Game_Screen")
                     }
                 }
             }
@@ -704,41 +699,29 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, MaxAdListener {
 
     }
 
-    override fun onAdLoaded(maxAd: MaxAd)
-    {
-        // Interstitial ad is ready to be shown. interstitialAd.isReady() will now return 'true'
 
-        // Reset retry attempt
-        retryAttempt = 0.0
+    override fun onInterstitialAdReady() {
     }
 
-    override fun onAdLoadFailed(adUnitId: String?, error: MaxError?)
-    {
-        // Interstitial ad failed to load
-        // We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds)
-
-        retryAttempt++
-        val delayMillis = TimeUnit.SECONDS.toMillis( 2.0.pow(6.0.coerceAtMost(retryAttempt)).toLong() )
-
-        Handler().postDelayed( { intersitial!!.loadAd() }, delayMillis )
+    override fun onInterstitialAdLoadFailed(p0: IronSourceError?) {
+        IronSource.loadInterstitial()
     }
 
-    override fun onAdDisplayFailed(maxAd: MaxAd?, error: MaxError?)
-    {
-        // Interstitial ad failed to display. We recommend loading the next ad
-        intersitial!!.loadAd()
+    override fun onInterstitialAdOpened() {
     }
 
-    override fun onAdDisplayed(maxAd: MaxAd) {}
-
-    override fun onAdClicked(maxAd: MaxAd) {}
-    override fun onAdRevenuePaid(ad: MaxAd?) {
+    override fun onInterstitialAdClosed() {
+        IronSource.loadInterstitial()
     }
 
-    override fun onAdHidden(maxAd: MaxAd)
-    {
-        // Interstitial ad is hidden. Pre-load the next ad
-        intersitial!!.loadAd()
+    override fun onInterstitialAdShowSucceeded() {
+    }
+
+    override fun onInterstitialAdShowFailed(p0: IronSourceError?) {
+        IronSource.loadInterstitial()
+    }
+
+    override fun onInterstitialAdClicked() {
     }
 
 }
