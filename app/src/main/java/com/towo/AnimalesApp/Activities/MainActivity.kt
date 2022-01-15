@@ -1,5 +1,6 @@
 package com.towo.AnimalesApp
 
+import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +11,8 @@ import com.applovin.sdk.AppLovinSdk
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
+import com.ironsource.mediationsdk.IronSource
+import com.ironsource.mediationsdk.integration.IntegrationHelper
 import com.towo.AnimalesApp.Interfaces.Efectos
 import com.towo.AnimalesApp.Interfaces.ReemplazaFragment
 import com.towo.AnimalesApp.Interfaces.Sonido
@@ -24,6 +27,8 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
     private var mpCorrect: MediaPlayer? = null
     private var mpIncorrect: MediaPlayer? = null
 
+    private var appKey: String = "12eb5054d"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
@@ -32,6 +37,7 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
         //AppLovinSdk.getInstance( this ).showMediationDebugger()
 
         firebaseAnalytics = Firebase.analytics
+
 
         getPreferences()
         comprobarSonido()
@@ -56,7 +62,11 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
 
     private fun initializeMobileAds() {
         Thread {
-
+            IronSource.init(this, appKey)
+            IronSource.setMetaData("do_not_sell","false")
+            IronSource.setMetaData("is_child_directed","true")
+            IntegrationHelper.validateIntegration(Activity())
+/*
             // Please make sure to set the mediation provider value to "max" to ensure proper functionality
             AppLovinSdk.getInstance( this ).mediationProvider = "max"
             AppLovinSdk.getInstance( this ).initializeSdk {
@@ -66,7 +76,7 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
                 AppLovinPrivacySettings.setDoNotSell( true, this )
             }
 
-        }.start()
+        */}.start()
     }
 
     override fun reemplazarFragment(fragment: Fragment) {
@@ -138,13 +148,15 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
 
     override fun onPause() {
         super.onPause()
+        IronSource.onPause(this);
         if (mp?.isPlaying!!) {
             mp?.pause()
         }
     }
 
-    override fun onRestart() {
-        super.onRestart()
+    override fun onResume() {
+        super.onResume()
+        IronSource.onResume(this);
         if (sonido) {
             mp?.start()
         }

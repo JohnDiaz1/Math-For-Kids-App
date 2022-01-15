@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,22 +13,22 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import com.applovin.mediation.MaxAd
-import com.applovin.mediation.MaxError
-import com.applovin.mediation.MaxReward
-import com.applovin.mediation.MaxRewardedAdListener
-import com.applovin.mediation.ads.MaxAdView
-import com.applovin.mediation.ads.MaxRewardedAd
+import com.ironsource.mediationsdk.ISBannerSize
+import com.ironsource.mediationsdk.IronSource
+import com.ironsource.mediationsdk.IronSourceBannerLayout
+import com.ironsource.mediationsdk.logger.IronSourceError
+import com.ironsource.mediationsdk.model.Placement
+import com.ironsource.mediationsdk.sdk.RewardedVideoListener
 import com.towo.AnimalesApp.Interfaces.Efectos
 import com.towo.AnimalesApp.R
 import kotlinx.android.synthetic.main.dialogo_combinadas.*
 import kotlinx.android.synthetic.main.sumas_juego.*
 import java.util.*
-import java.util.concurrent.TimeUnit
-import kotlin.math.pow
 
 
-class Sumas : Fragment(), MaxRewardedAdListener {
+
+
+class Sumas : Fragment(), RewardedVideoListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,7 +51,8 @@ class Sumas : Fragment(), MaxRewardedAdListener {
     private lateinit var ivUno: TextView
     private lateinit var ivDos: TextView
     private lateinit var signo: ImageView
-    private lateinit var adView: MaxAdView
+    private lateinit var bannerContainer: FrameLayout
+    private lateinit var banner: IronSourceBannerLayout
     private lateinit var myToolBar: Toolbar
     private lateinit var corazones: ImageView
     private lateinit var contador: TextView
@@ -63,14 +63,12 @@ class Sumas : Fragment(), MaxRewardedAdListener {
     private lateinit var aceptarButton: Button
     private lateinit var cancelButton: Button
 
-    private var rewardedAd: MaxRewardedAd? = null
 
     private var number1: Int = 0
     private var resultado: Int = 0
     private var number2: Int = 0
     private var respuesta: Int = 0
     private var convertRes: String? = null
-    private var retryAttempt = 0.0
     private var ads: Boolean = true
     private var lifes: Int = 3
     private val constantTime: Long = 31000
@@ -116,7 +114,7 @@ class Sumas : Fragment(), MaxRewardedAdListener {
         ivUno = view.findViewById(R.id.imageView_NumUno)
         ivDos = view.findViewById(R.id.imageView_NumDos)
         signo = view.findViewById(R.id.imageView_signo)
-        adView = view.findViewById(R.id.banner_juego)
+        bannerContainer = view.findViewById(R.id.bannerContainer)
         myToolBar = view.findViewById(R.id.my_toolbar)
         corazones = view.findViewById(R.id.iv_corazones)
         contador = view.findViewById(R.id.tempo)
@@ -231,9 +229,9 @@ class Sumas : Fragment(), MaxRewardedAdListener {
             alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
             aceptarButton.setOnClickListener {
-                if (rewardedAd?.isReady == true) {
+                if (IronSource.isRewardedVideoAvailable()) {
                     alertDialog.dismiss()
-                    rewardedAd?.showAd()
+                    IronSource.showRewardedVideo("Corazones_Reward");
                 }else{
                     alertDialog.dismiss()
                     Toast.makeText(context, R.string.retry_later, Toast.LENGTH_LONG).show()
@@ -316,7 +314,7 @@ class Sumas : Fragment(), MaxRewardedAdListener {
     }
 
     private fun showButtonLifes() {
-        if (rewardedAd?.isReady == true) {
+        if (IronSource.isRewardedVideoAvailable()) {
             masVidas.isEnabled = true
             masVidas.visibility = View.VISIBLE
         }
@@ -398,79 +396,65 @@ class Sumas : Fragment(), MaxRewardedAdListener {
                     ?: return@Thread
             ads = sharedPref.getBoolean("no-ads", true)
 
+            IronSource.shouldTrackNetworkState(activity, true);
+
             if (ads) {
                 activity?.runOnUiThread {
-                    createRewardedAd()
-                    adView.loadAd()
-                    adView.visibility = View.VISIBLE
-                    adView.startAutoRefresh()
+                    banner = IronSource.createBanner(activity, ISBannerSize.BANNER)
+                    val layoutParams: FrameLayout.LayoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                        FrameLayout.LayoutParams.WRAP_CONTENT)
+                    bannerContainer.addView(banner, 0, layoutParams)
+                    IronSource.loadBanner(banner)
                 }
             }
 
         }.start()
     }
 
-    private fun createRewardedAd() {
-        rewardedAd = MaxRewardedAd.getInstance("1880825b3fd71042", activity)
-        rewardedAd!!.setListener(this)
-
-        rewardedAd!!.loadAd()
-    }
-
-    // MAX Ad Listener
-    override fun onAdLoaded(maxAd: MaxAd) {
-        // Rewarded ad is ready to be shown. rewardedAd.isReady() will now return 'true'
-
-        // Reset retry attempt
-        retryAttempt = 0.0
-    }
-
-    override fun onAdLoadFailed(adUnitId: String?, error: MaxError?) {
-        // Rewarded ad failed to load
-        // We recommend retrying with exponentially higher delays up to a maximum delay (in this case 64 seconds)
-
-        retryAttempt++
-        val delayMillis =
-            TimeUnit.SECONDS.toMillis(2.0.pow(6.0.coerceAtMost(retryAttempt)).toLong())
-
-        Handler().postDelayed({ rewardedAd?.loadAd() }, delayMillis)
-    }
-
-    override fun onAdDisplayFailed(maxAd: MaxAd?, error: MaxError?) {
-        // Rewarded ad failed to display. We recommend loading the next ad
-        rewardedAd?.loadAd()
-    }
-
-    override fun onAdDisplayed(maxAd: MaxAd) {}
-
-    override fun onAdClicked(maxAd: MaxAd) {}
-
-    override fun onAdRevenuePaid(ad: MaxAd?) {
-    }
-
-    override fun onAdHidden(maxAd: MaxAd) {
-        // rewarded ad is hidden. Pre-load the next ad
-        rewardedAd?.loadAd()
-    }
-
-    override fun onRewardedVideoStarted(maxAd: MaxAd) {}
-
-    override fun onRewardedVideoCompleted(maxAd: MaxAd) {}
-
-    override fun onUserRewarded(maxAd: MaxAd, maxReward: MaxReward) {
-        // Rewarded ad was displayed and user should receive the reward
-        lifes++
-        life()
-    }
-
     override fun onPause() {
         super.onPause()
+        IronSource.onPause(activity)
         pauseCount()
     }
 
     override fun onResume() {
         super.onResume()
+        IronSource.onResume(activity)
         startCount()
+    }
+
+    override fun onRewardedVideoAdOpened() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRewardedVideoAdClosed() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRewardedVideoAvailabilityChanged(p0: Boolean) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRewardedVideoAdStarted() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRewardedVideoAdEnded() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRewardedVideoAdRewarded(p0: Placement?) {
+        val rewardAmount: Int = p0!!.rewardAmount
+        lifes += rewardAmount
+        life()
+    }
+
+    override fun onRewardedVideoAdShowFailed(p0: IronSourceError?) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onRewardedVideoAdClicked(p0: Placement?) {
+        TODO("Not yet implemented")
     }
 
 }
