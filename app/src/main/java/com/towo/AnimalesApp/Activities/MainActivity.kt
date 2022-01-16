@@ -3,6 +3,7 @@ package com.towo.AnimalesApp
 import android.app.Activity
 import android.content.Context
 import android.media.MediaPlayer
+import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -16,10 +17,13 @@ import com.ironsource.mediationsdk.integration.IntegrationHelper
 import com.towo.AnimalesApp.Interfaces.Efectos
 import com.towo.AnimalesApp.Interfaces.ReemplazaFragment
 import com.towo.AnimalesApp.Interfaces.Sonido
+import com.towo.AnimalesApp.databinding.ActivityMainBinding
 
 private lateinit var firebaseAnalytics: FirebaseAnalytics
 
 class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
+
+    private lateinit var binding: ActivityMainBinding
 
     private var sonido: Boolean = true
     private var efectos: Boolean = true
@@ -32,7 +36,8 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         //AppLovinSdk.getInstance( this ).showMediationDebugger()
 

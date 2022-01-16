@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import com.ironsource.mediationsdk.ISBannerSize
@@ -22,8 +21,7 @@ import com.ironsource.mediationsdk.sdk.RewardedVideoListener
 import com.towo.AnimalesApp.Interfaces.Efectos
 import com.towo.AnimalesApp.Interfaces.ReemplazaFragment
 import com.towo.AnimalesApp.R
-import kotlinx.android.synthetic.main.dialogo_combinadas.*
-import kotlinx.android.synthetic.main.sumas_juego.*
+import com.towo.AnimalesApp.databinding.CombinadasJuegoBinding
 import java.util.*
 
 
@@ -43,22 +41,14 @@ class Combinadas : Fragment(), RewardedVideoListener {
     private var listener: Efectos? = null
     private var reemplaza: ReemplazaFragment? = null
 
-    private lateinit var combi1: Button
-    private lateinit var combi2: Button
-    private lateinit var combi3: Button
-    private lateinit var siguiente: Button
-    private lateinit var ivUno: TextView
-    private lateinit var ivDos: TextView
-    private lateinit var signo: ImageView
-    private lateinit var bannerContainer: FrameLayout
+    private var _binding: CombinadasJuegoBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var banner: IronSourceBannerLayout
-    private lateinit var myToolBar: Toolbar
-    private lateinit var corazones: ImageView
-    private lateinit var contador: TextView
-    private lateinit var masVidas: ImageView
+
     private lateinit var homeButton: Button
     private lateinit var retryButton: Button
-    private lateinit var timeProgress: ProgressBar
+
     private lateinit var aceptarButton: Button
     private lateinit var cancelButton: Button
    // private lateinit var fragmentSeleccion: Seleccion
@@ -75,8 +65,8 @@ class Combinadas : Fragment(), RewardedVideoListener {
     private var time: Long = constantTime
     private val count = object : CountDownTimer(time, 1000) {
         override fun onTick(millisUntilFinished: Long) {
-            contador.text = (millisUntilFinished / 1000).toString()
-            timeProgress.progress = (millisUntilFinished / 1000).toInt()
+            binding.tempo.text = (millisUntilFinished / 1000).toString()
+            binding.timeProgress?.progress = (millisUntilFinished / 1000).toInt()
         }
 
         override fun onFinish() {
@@ -97,33 +87,24 @@ class Combinadas : Fragment(), RewardedVideoListener {
     private var seleccion: BooleanArray = booleanArrayOf()
     private var randomSelect: Int = 0
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.combinadas_juego, container, false)
+    ): View {
+
+        _binding = CombinadasJuegoBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        signo = view.findViewById(R.id.imageView_signo)
-        combi1 = view.findViewById(R.id.R1)
-        combi2 = view.findViewById(R.id.R2)
-        combi3 = view.findViewById(R.id.R3)
-        siguiente = view.findViewById(R.id.btnSiguiente)
-        ivUno = view.findViewById(R.id.imageView_NumUno)
-        ivDos = view.findViewById(R.id.imageView_NumDos)
-        bannerContainer = view.findViewById(R.id.bannerContainer)
-        myToolBar = view.findViewById(R.id.my_toolbar)
-        corazones = view.findViewById(R.id.iv_corazones)
-        contador = view.findViewById(R.id.tempo)
-        masVidas = view.findViewById(R.id.moreLifes_btn)
+
         random = Random()
         rdmButtons = IntArray(3)
-        timeProgress = view.findViewById(R.id.time_progress)
+
        // fragmentSeleccion = Seleccion()
 
         b2 = requireArguments()
@@ -138,69 +119,69 @@ class Combinadas : Fragment(), RewardedVideoListener {
                 reemplaza?.reemplazarFragment(fragmentSeleccion)
         }*/
 
-        siguiente.visibility = View.INVISIBLE
-        masVidas.visibility = View.INVISIBLE
+        binding.btnSiguiente.visibility = View.INVISIBLE
+        binding.moreLifesBtn.visibility = View.INVISIBLE
 
-        combi1.setOnClickListener {
-            combi1.isEnabled = false
-            convertRes = combi1.text.toString()
+        binding.R1.setOnClickListener {
+            binding.R1.isEnabled = false
+            convertRes = binding.R1.text.toString()
             respuesta = convertRes!!.toInt()
             if (respuesta == resultado) {
-                combi1.setBackgroundResource(R.drawable.button_round_green)
+                binding.R1.setBackgroundResource(R.drawable.button_round_green)
                 listener?.correct()
-                combi2.isEnabled = false
-                combi3.isEnabled = false
-                siguiente.visibility = View.VISIBLE
+                binding.R2.isEnabled = false
+                binding.R3.isEnabled = false
+                binding.btnSiguiente.visibility = View.VISIBLE
             } else {
-                combi1.setBackgroundResource(R.drawable.button_round_red)
+                binding.R1.setBackgroundResource(R.drawable.button_round_red)
                 listener?.incorrect()
                 lifes--
                 life()
             }
         }
-        combi2.setOnClickListener {
-            combi2.isEnabled = false
-            convertRes = combi2.text.toString()
+        binding.R2.setOnClickListener {
+            binding.R2.isEnabled = false
+            convertRes = binding.R2.text.toString()
             respuesta = convertRes!!.toInt()
             if (respuesta == resultado) {
-                combi2.setBackgroundResource(R.drawable.button_round_green)
+                binding.R2.setBackgroundResource(R.drawable.button_round_green)
                 listener?.correct()
-                combi1.isEnabled = false
-                combi3.isEnabled = false
-                siguiente.visibility = View.VISIBLE
+                binding.R1.isEnabled = false
+                binding.R3.isEnabled = false
+                binding.btnSiguiente.visibility = View.VISIBLE
             } else {
-                combi2.setBackgroundResource(R.drawable.button_round_red)
+                binding.R2.setBackgroundResource(R.drawable.button_round_red)
                 listener?.incorrect()
                 lifes--
                 life()
             }
         }
-        combi3.setOnClickListener {
-            combi3.isEnabled = false
-            convertRes = combi3.text.toString()
+        binding.R3.setOnClickListener {
+            binding.R3.isEnabled = false
+            convertRes = binding.R3.text.toString()
             respuesta = convertRes!!.toInt()
             if (respuesta == resultado) {
-                combi3.setBackgroundResource(R.drawable.button_round_green)
+                binding.R3.setBackgroundResource(R.drawable.button_round_green)
                 listener?.correct()
-                combi1.isEnabled = false
-                combi2.isEnabled = false
-                siguiente.visibility = View.VISIBLE
+                binding.R1.isEnabled = false
+                binding.R2.isEnabled = false
+                binding.btnSiguiente.visibility = View.VISIBLE
             } else {
-                combi3.setBackgroundResource(R.drawable.button_round_red)
+                binding.R3.setBackgroundResource(R.drawable.button_round_red)
                 listener?.incorrect()
                 lifes--
                 life()
             }
         }
 
-        siguiente.setOnClickListener {
-            siguiente.visibility = View.INVISIBLE
+        binding.btnSiguiente.setOnClickListener {
+            binding.btnSiguiente.visibility = View.INVISIBLE
             resetButtons()
             startCount()
             selectOperation()
         }
 
-        masVidas.setOnClickListener {
+        binding.moreLifesBtn.setOnClickListener {
             dialogCorazones()
         }
 
@@ -331,7 +312,7 @@ class Combinadas : Fragment(), RewardedVideoListener {
         Thread {
 
             activity?.runOnUiThread {
-                signo.setImageResource(R.drawable.adicion)
+                binding.imageViewSigno.setImageResource(R.drawable.adicion)
             }
 
             number1 = random.nextInt(30)
@@ -340,8 +321,8 @@ class Combinadas : Fragment(), RewardedVideoListener {
             resultado = number1 + number2
 
             activity?.runOnUiThread {
-                ivUno.text = number1.toString()
-                ivDos.text = number2.toString()
+                binding.imageViewNumUno.text = number1.toString()
+                binding.imageViewNumDos.text = number2.toString()
             }
 
             threadButtonRandom()
@@ -353,7 +334,7 @@ class Combinadas : Fragment(), RewardedVideoListener {
         Thread {
 
             activity?.runOnUiThread {
-                signo.setImageResource(R.drawable.resta)
+                binding.imageViewSigno.setImageResource(R.drawable.resta)
             }
 
             number1 = random.nextInt(30)
@@ -364,8 +345,8 @@ class Combinadas : Fragment(), RewardedVideoListener {
             if (resultado >= 0) {
 
                 activity?.runOnUiThread {
-                    ivUno.text = number1.toString()
-                    ivDos.text = number2.toString()
+                    binding.imageViewNumUno.text = number1.toString()
+                    binding.imageViewNumDos.text = number2.toString()
                 }
 
             } else {
@@ -382,7 +363,7 @@ class Combinadas : Fragment(), RewardedVideoListener {
         Thread {
 
             activity?.runOnUiThread {
-                signo.setImageResource(R.drawable.multiplicacion)
+                binding.imageViewSigno.setImageResource(R.drawable.multiplicacion)
             }
 
             number1 = random.nextInt(12)
@@ -391,8 +372,8 @@ class Combinadas : Fragment(), RewardedVideoListener {
             resultado = number1 * number2
 
             activity?.runOnUiThread {
-                ivUno.text = number1.toString()
-                ivDos.text = number2.toString()
+                binding.imageViewNumUno.text = number1.toString()
+                binding.imageViewNumDos.text = number2.toString()
             }
 
             threadButtonRandom()
@@ -404,7 +385,7 @@ class Combinadas : Fragment(), RewardedVideoListener {
 
         Thread {
             activity?.runOnUiThread {
-                signo.setImageResource(R.drawable.division)
+                binding.imageViewSigno.setImageResource(R.drawable.division)
             }
             number1 = random.nextInt(50)
             number2 = random.nextInt(50)
@@ -415,8 +396,8 @@ class Combinadas : Fragment(), RewardedVideoListener {
                     resultado = number1 / number2
 
                     activity?.runOnUiThread {
-                        ivUno.text = number1.toString()
-                        ivDos.text = number2.toString()
+                        binding.imageViewNumUno.text = number1.toString()
+                        binding.imageViewNumDos.text = number2.toString()
                     }
 
                 } else {
@@ -452,16 +433,16 @@ class Combinadas : Fragment(), RewardedVideoListener {
             }
             1 -> {
                 showButtonLifes()
-                iv_corazones?.setImageResource(R.drawable.lifes_1)
+                binding.ivCorazones.setImageResource(R.drawable.lifes_1)
             }
             2 -> {
                 showButtonLifes()
-                iv_corazones?.setImageResource(R.drawable.lifes_2)
+                binding.ivCorazones.setImageResource(R.drawable.lifes_2)
             }
             3 -> {
-                masVidas.isEnabled = false
-                masVidas.visibility = View.INVISIBLE
-                iv_corazones?.setImageResource(R.drawable.lifes_3)
+                binding.moreLifesBtn.isEnabled = false
+                binding.moreLifesBtn.visibility = View.INVISIBLE
+                binding.ivCorazones.setImageResource(R.drawable.lifes_3)
             }
         }
     }
@@ -498,18 +479,18 @@ class Combinadas : Fragment(), RewardedVideoListener {
 
     private fun showButtonLifes() {
         if (IronSource.isRewardedVideoAvailable()) {
-            masVidas.isEnabled = true
-            masVidas.visibility = View.VISIBLE
+            binding.moreLifesBtn.isEnabled = true
+            binding.moreLifesBtn.visibility = View.VISIBLE
         }
     }
 
     private fun resetButtons() {
-        combi1.isEnabled = true
-        combi2.isEnabled = true
-        combi3.isEnabled = true
-        combi1.setBackgroundResource(R.drawable.button_round)
-        combi2.setBackgroundResource(R.drawable.button_round)
-        combi3.setBackgroundResource(R.drawable.button_round)
+        binding.R1.isEnabled = true
+        binding.R2.isEnabled = true
+        binding.R3.isEnabled = true
+        binding.R1.setBackgroundResource(R.drawable.button_round)
+        binding.R2.setBackgroundResource(R.drawable.button_round)
+        binding.R3.setBackgroundResource(R.drawable.button_round)
     }
 
     private fun threadButtonRandom() {
@@ -522,23 +503,23 @@ class Combinadas : Fragment(), RewardedVideoListener {
             when (choiceButton) {
                 0 -> {
                     activity?.runOnUiThread {
-                        combi1.text = resultado.toString()
-                        combi2.text = rdmButtons[1].toString()
-                        combi3.text = rdmButtons[2].toString()
+                        binding.R1.text = resultado.toString()
+                        binding.R2.text = rdmButtons[1].toString()
+                        binding.R3.text = rdmButtons[2].toString()
                     }
                 }
                 1 -> {
                     activity?.runOnUiThread {
-                        combi2.text = resultado.toString()
-                        combi1.text = rdmButtons[1].toString()
-                        combi3.text = rdmButtons[2].toString()
+                        binding.R2.text = resultado.toString()
+                        binding.R1.text = rdmButtons[1].toString()
+                        binding.R3.text = rdmButtons[2].toString()
                     }
                 }
                 else -> {
                     activity?.runOnUiThread {
-                        combi3.text = resultado.toString()
-                        combi2.text = rdmButtons[1].toString()
-                        combi1.text = rdmButtons[2].toString()
+                        binding.R3.text = resultado.toString()
+                        binding.R2.text = rdmButtons[1].toString()
+                        binding.R1.text = rdmButtons[2].toString()
                     }
                 }
             }
@@ -583,7 +564,7 @@ class Combinadas : Fragment(), RewardedVideoListener {
                     banner = IronSource.createBanner(activity, ISBannerSize.BANNER)
                     val layoutParams: FrameLayout.LayoutParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.WRAP_CONTENT)
-                    bannerContainer.addView(banner, 0, layoutParams)
+                    binding.bannerContainer.addView(banner, 0, layoutParams)
                     IronSource.loadBanner(banner)
                 }
             }

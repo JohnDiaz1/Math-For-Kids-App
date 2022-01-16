@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.firebase.firebase-perf'
@@ -35,8 +34,8 @@ allprojects {
             applicationId "com.towo.AnimalesApp"
             minSdkVersion 19
             targetSdkVersion 31
-            versionCode 28
-            versionName "1.2.4"
+            versionCode 29
+            versionName "1.3.0"
             multiDexEnabled true
 
             testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
