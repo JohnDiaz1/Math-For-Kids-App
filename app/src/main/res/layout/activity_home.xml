@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".usecases.home.HomeActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/fondoinicio"
+            android:orientation="vertical"
+            android:weightSum="10">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2">
+
+                <TextView
+                    android:id="@+id/textGrid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:fontFamily="@font/sigmar_one"
+                    android:gravity="center"
+                    android:text="@string/titulo_seleccion"
+                    android:textColor="@android:color/white"
+                    android:textSize="50sp"
+                    app:autoSizeMaxTextSize="60sp"
+                    app:autoSizeMinTextSize="30sp"
+                    app:autoSizeTextType="uniform" />
+
+            </RelativeLayout>
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="50dp"
+                android:layout_weight="8"
+                android:padding="14dp"
+                app:alignmentMode="alignMargins"
+                app:columnCount="2"
+                app:rowCount="3"
+                app:useDefaultMargins="true">
+
+                <ImageButton
+                    android:id="@+id/ImageButtonSums"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_sumas"
+                    android:contentDescription="@string/sums"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+                <ImageButton
+                    android:id="@+id/ImageButtonSubtraction"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_resta"
+                    android:contentDescription="@string/rest"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+                <ImageButton
+                    android:id="@+id/ImageButtonMultiplication"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_multi"
+                    android:contentDescription="@string/multiplication"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+                <ImageButton
+                    android:id="@+id/ImageButtonDivision"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_div"
+                    android:contentDescription="@string/division"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+                <ImageButton
+                    android:id="@+id/ImageButtonChoice"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/combinados"
+                    android:contentDescription="@string/combinadas"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+                <ImageButton
+                    android:id="@+id/ImageButtonConfig"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/boton_menu"
+                    android:contentDescription="@string/configuracion"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+                <ImageButton
+                    android:id="@+id/ImageButtonLearn"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/proximamente"
+                    android:contentDescription="@string/aprendea"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+                <ImageButton
+                    android:id="@+id/ImageButtonApps"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginBottom="30dp"
+                    android:background="@drawable/btn_apps"
+                    android:clickable="false"
+                    android:contentDescription="@string/sums"
+                    android:visibility="invisible"
+                    app:layout_columnWeight="1"
+                    app:layout_rowWeight="1" />
+
+            </androidx.gridlayout.widget.GridLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
