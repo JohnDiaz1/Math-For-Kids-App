@@ -62,8 +62,9 @@ class GameActivity : AppCompatActivity() {
         val bundle = intent.extras
         val data = bundle?.getString("nombre")
 
+        binding.ImageViewSign.setImageResource(viewModel.sign(data!!))
 
-        supportActionBar?.titleName(data!!)
+        supportActionBar?.titleName(data)
         supportActionBar?.elevation = 0f
 
         val backIcon = (ContextCompat.getDrawable(this, R.drawable.ic_back))
@@ -73,7 +74,10 @@ class GameActivity : AppCompatActivity() {
     }
 
     private fun load() {
-        binding.ImageViewSign.setImageResource(viewModel.sign("Choice"))
+        val numbers = viewModel.numberRandom()
+        binding.ImageViewNumUno.text = numbers[0].toString()
+        binding.ImageViewNumDos.text = numbers[1].toString()
+
     }
 
 }
