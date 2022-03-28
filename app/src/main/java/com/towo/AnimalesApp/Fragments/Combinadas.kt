@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import com.ironsource.mediationsdk.ISBannerSize
 import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.IronSourceBannerLayout
@@ -20,8 +21,9 @@ import com.ironsource.mediationsdk.logger.IronSourceError
 import com.ironsource.mediationsdk.model.Placement
 import com.ironsource.mediationsdk.sdk.RewardedVideoListener
 import com.towo.AnimalesApp.Interfaces.Efectos
-import com.towo.AnimalesApp.Interfaces.ReemplazaFragment
 import com.towo.AnimalesApp.R
+import com.towo.AnimalesApp.provider.preferences.PreferencesKey
+import com.towo.AnimalesApp.provider.preferences.PreferencesProvider
 import kotlinx.android.synthetic.main.dialogo_combinadas.*
 import kotlinx.android.synthetic.main.sumas_juego.*
 import java.util.*
@@ -32,16 +34,14 @@ class Combinadas : Fragment(), RewardedVideoListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is Efectos && context is ReemplazaFragment) {
+        if (context is Efectos ) {
             listener = context
-            reemplaza = context
         }
 
     }
 
 
     private var listener: Efectos? = null
-    private var reemplaza: ReemplazaFragment? = null
 
     private lateinit var combi1: Button
     private lateinit var combi2: Button
@@ -93,7 +93,8 @@ class Combinadas : Fragment(), RewardedVideoListener {
     private lateinit var rdmButtons: IntArray
     //FIN Inicializacion variables GLOBALES
 
-    private var b2: Bundle = Bundle()
+   //private var b2: Bundle = Bundle()
+    val args: CombinadasArgs by navArgs()
     private var seleccion: BooleanArray = booleanArrayOf()
     private var randomSelect: Int = 0
 
@@ -126,17 +127,17 @@ class Combinadas : Fragment(), RewardedVideoListener {
         timeProgress = view.findViewById(R.id.time_progress)
        // fragmentSeleccion = Seleccion()
 
-        b2 = requireArguments()
-        seleccion = b2.getBooleanArray("seleccionado")!!
+       // b2 = requireArguments()
+        seleccion = args.operaciones!! //b2.getBooleanArray("seleccionado")!!
 
         startCount()
         getAds()
         selectOperation()
 
-       /* myToolBar.setNavigationIcon(R.drawable.ic_back)
+        myToolBar.setNavigationIcon(R.drawable.ic_back)
         myToolBar.setNavigationOnClickListener {
-                reemplaza?.reemplazarFragment(fragmentSeleccion)
-        }*/
+            Navigation.findNavController(view).navigate(R.id.action_combinadas2_to_seleccion)
+        }
 
         siguiente.visibility = View.INVISIBLE
         masVidas.visibility = View.INVISIBLE
@@ -571,10 +572,8 @@ class Combinadas : Fragment(), RewardedVideoListener {
 
     private fun getAds() {
         Thread {
-            val sharedPref =
-                activity?.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
-                    ?: return@Thread
-            ads = sharedPref.getBoolean("no-ads", true)
+
+            ads = context?.let { PreferencesProvider.bool(it, PreferencesKey.ADS) }!!
 
             IronSource.shouldTrackNetworkState(activity, true);
 

@@ -21,6 +21,8 @@ import com.ironsource.mediationsdk.model.Placement
 import com.ironsource.mediationsdk.sdk.RewardedVideoListener
 import com.towo.AnimalesApp.Interfaces.Efectos
 import com.towo.AnimalesApp.R
+import com.towo.AnimalesApp.provider.preferences.PreferencesKey
+import com.towo.AnimalesApp.provider.preferences.PreferencesProvider
 import kotlinx.android.synthetic.main.dialogo_combinadas.*
 import kotlinx.android.synthetic.main.sumas_juego.*
 import java.util.*
@@ -391,10 +393,7 @@ class Sumas : Fragment(), RewardedVideoListener {
 
         Thread {
 
-            val sharedPref =
-                activity?.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
-                    ?: return@Thread
-            ads = sharedPref.getBoolean("no-ads", true)
+            ads = context?.let { PreferencesProvider.bool(it, PreferencesKey.ADS) }!!
 
             IronSource.shouldTrackNetworkState(activity, true);
 

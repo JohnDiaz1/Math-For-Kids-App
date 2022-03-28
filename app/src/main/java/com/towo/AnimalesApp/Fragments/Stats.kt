@@ -10,6 +10,8 @@ import androidx.appcompat.widget.Toolbar
 import androidx.navigation.Navigation
 import com.applovin.mediation.ads.MaxAdView
 import com.towo.AnimalesApp.R
+import com.towo.AnimalesApp.provider.preferences.PreferencesKey
+import com.towo.AnimalesApp.provider.preferences.PreferencesProvider
 
 
 class Stats : Fragment() {
@@ -52,10 +54,7 @@ class Stats : Fragment() {
 
         Thread {
 
-            val sharedPref =
-                activity?.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE)
-                    ?: return@Thread
-            ads = sharedPref.getBoolean("no-ads", true)
+            ads = context?.let { PreferencesProvider.bool(it, PreferencesKey.ADS) }!!
 
             if (ads) {
                 activity?.runOnUiThread {

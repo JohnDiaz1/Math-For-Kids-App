@@ -24,22 +24,23 @@ import com.ironsource.mediationsdk.IronSourceBannerLayout
 import com.ironsource.mediationsdk.logger.IronSourceError
 import com.ironsource.mediationsdk.sdk.InterstitialListener
 import com.towo.AnimalesApp.Fragments.Combinadas
-import com.towo.AnimalesApp.Interfaces.ReemplazaFragment
 import com.towo.AnimalesApp.Interfaces.Sonido
+import com.towo.AnimalesApp.provider.preferences.PreferencesKey
+import com.towo.AnimalesApp.provider.preferences.PreferencesProvider
 
 
 class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is Sonido && context is ReemplazaFragment) {
+        if (context is Sonido ) {
             listener = context
-            reemplaza = context
         }
     }
 
+    private var action = SeleccionDirections.actionSeleccionToCombinadas2()
+
     private var listener: Sonido? = null
-    private var reemplaza: ReemplazaFragment? = null
 
     // private lateinit var fragmentAprender: Aprender
     private lateinit var sumas: ImageButton
@@ -102,6 +103,7 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
 
         getPreferences()
         threadSetupBilling()
+
 
 
         if (dlogo == 5) {
@@ -193,7 +195,7 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
 
         if (dlogo < 6) {
             dlogo++
-            save("dialogo", dlogo)
+            context?.let { PreferencesProvider.set(it, PreferencesKey.DIALOG, dlogo) }
         } else if (dlogo == 5) {
 
             activity?.let {
@@ -213,7 +215,7 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
 
                     } else {
                         dlogo = 4
-                        save("dialogo", dlogo)
+                        context?.let { it1 -> PreferencesProvider.set(it1, PreferencesKey.DIALOG, dlogo) }
                     }
                 }
             }
@@ -329,10 +331,10 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
             dialogBuilder.setTitle(R.string.politica)
             dialogBuilder.setMessage(R.string.mensaje_politica)
             dialogBuilder.setPositiveButton(R.string.vale) { _, _ ->
-                save("politica", true)
+                context?.let { PreferencesProvider.set(it, PreferencesKey.POLITICS, true) }
             }
             dialogBuilder.setNegativeButton(R.string.info) { _, _ ->
-                save("politica", false)
+                context?.let { PreferencesProvider.set(it, PreferencesKey.POLITICS, false) }
                 startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
@@ -445,13 +447,14 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
             } else {
 
                     activity?.runOnUiThread {
-                        val b1 = Bundle()
+                       /* val b1 = Bundle()
                         b1.putBooleanArray("seleccionado", seleccion)
                         fragmentCombinadas.arguments = b1
                         
                         intersicial()
-                        reemplaza?.reemplazarFragment(fragmentCombinadas)
-                        //view?.let { it2 -> Navigation.findNavController(it2).navigate(action)}
+                        reemplaza?.reemplazarFragment(fragmentCombinadas) */
+                        action = SeleccionDirections.actionSeleccionToCombinadas2(operaciones = seleccion)
+                        view?.let { it2 -> Navigation.findNavController(it2).navigate(action)}
 
                 }
             }
@@ -491,35 +494,13 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
         }
     }
 
-    private fun save(key: String, valor: Int) {
-
-        val sharedPref =
-            activity?.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE) ?: return
-        with(sharedPref.edit()) {
-            putInt(key, valor)
-            commit()
-        }
-
-    }
-
-    private fun save(key: String, valor: Boolean) {
-        val sharedPref =
-            activity?.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE) ?: return
-        with(sharedPref.edit()) {
-            putBoolean(key, valor)
-            commit()
-        }
-
-    }
-
     private fun getPreferences() {
-        val sharedPref =
-            activity?.getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE) ?: return
-        dlogo = sharedPref.getInt("dialogo", 0)
-        sonido = sharedPref.getBoolean("sonido", true)
-        efectos = sharedPref.getBoolean("efecto", true)
-        info = sharedPref.getBoolean("politica", false)
-        ads = sharedPref.getBoolean("no-ads", true)
+
+        dlogo = context?.let { PreferencesProvider.int(it, PreferencesKey.DIALOG) }!!
+        sonido = context?.let { PreferencesProvider.bool(it, PreferencesKey.SOUND) }!!
+        efectos = context?.let { PreferencesProvider.bool(it, PreferencesKey.EFFECT) }!!
+        info = context?.let { PreferencesProvider.bool(it, PreferencesKey.POLITICS) }!!
+        ads = context?.let { PreferencesProvider.bool(it, PreferencesKey.ADS) }!!
     }
 
     private fun comprobarSonidoYEfecto() {
@@ -567,7 +548,7 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
                         if (queryPurchases != null && queryPurchases.size > 0) {
                             handlePurchases(queryPurchases)
                         } else {
-                            save("no-ads", true)
+                            context?.let { PreferencesProvider.set(it, PreferencesKey.ADS, true) }
                         }
                     }
                 }
@@ -668,7 +649,7 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
 
         val ackPurchase = AcknowledgePurchaseResponseListener { billingResult ->
             if (billingResult.responseCode == BillingClient.BillingResponseCode.OK) {
-                save("no-ads", false)
+                context?.let { PreferencesProvider.set(it, PreferencesKey.ADS, true) }
             }
         }
 
@@ -684,7 +665,7 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
                 } else {
 
                     if (ads) {
-                        save("no-ads", false)
+                        context?.let { PreferencesProvider.set(it, PreferencesKey.ADS, false) }
                         Toast.makeText(context, R.string.usuarioPrimum, Toast.LENGTH_LONG).show()
                     }
                 }
@@ -692,7 +673,7 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
             } else if (productId == purchase.sku && purchase.purchaseState == Purchase.PurchaseState.PENDING) {
                 Toast.makeText(context, R.string.compra_pendiente, Toast.LENGTH_LONG).show()
             } else if (productId == purchase.sku && purchase.purchaseState == Purchase.PurchaseState.UNSPECIFIED_STATE) {
-                save("no-ads", true)
+                context?.let { PreferencesProvider.set(it, PreferencesKey.ADS, true) }
             }
 
         }

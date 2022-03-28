@@ -6,20 +6,19 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.applovin.sdk.AppLovinPrivacySettings
-import com.applovin.sdk.AppLovinSdk
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.ktx.Firebase
 import com.ironsource.mediationsdk.IronSource
 import com.ironsource.mediationsdk.integration.IntegrationHelper
 import com.towo.AnimalesApp.Interfaces.Efectos
-import com.towo.AnimalesApp.Interfaces.ReemplazaFragment
 import com.towo.AnimalesApp.Interfaces.Sonido
+import com.towo.AnimalesApp.provider.preferences.PreferencesKey
+import com.towo.AnimalesApp.provider.preferences.PreferencesProvider
 
 private lateinit var firebaseAnalytics: FirebaseAnalytics
 
-class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
+class MainActivity : AppCompatActivity(), Sonido, Efectos{
 
     private var sonido: Boolean = true
     private var efectos: Boolean = true
@@ -46,18 +45,9 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
 
     }
 
-    private fun save(clave: String, valor: Boolean) {
-        val sharedPref = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE) ?: return
-        with(sharedPref.edit()) {
-            putBoolean(clave, valor)
-            commit()
-        }
-    }
-
     private fun getPreferences() {
-        val sharedPref = getSharedPreferences("SHARED_PREF", Context.MODE_PRIVATE) ?: return
-        sonido = sharedPref.getBoolean("sonido", true)
-        efectos = sharedPref.getBoolean("efecto", true)
+        sonido = PreferencesProvider.bool(this, PreferencesKey.SOUND)!!
+        efectos = PreferencesProvider.bool(this, PreferencesKey.EFFECT)!!
     }
 
     private fun initializeMobileAds() {
@@ -79,38 +69,31 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
         */}.start()
     }
 
-    override fun reemplazarFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().apply {
-            replace(R.id.ContenedorFragments, fragment)
-            commit()
-        }
-    }
 
     override fun comprobarSonido() {
+        mp = MediaPlayer.create(this, R.raw.musica)
+
         if (sonido) {
             // se crea el sonido MediaPlayer
-            mp = MediaPlayer.create(this, R.raw.musica)
             mp?.isLooping = true
             mp?.start()
-            save("sonido", sonido)
+            PreferencesProvider.set(this, PreferencesKey.SOUND, true)
         } else {
             //NO SE CREA NADA
-            mp = MediaPlayer.create(this, R.raw.musica)
-            save("sonido", sonido)
-        }
-        if (efectos) {
-            mpCorrect = MediaPlayer.create(this, R.raw.correcto)
-            mpIncorrect = MediaPlayer.create(this, R.raw.incorrecto)
+            PreferencesProvider.set(this, PreferencesKey.SOUND, false)
         }
     }
 
     override fun comprobarEfectos() {
+        mpCorrect = MediaPlayer.create(this, R.raw.correcto)
+        mpIncorrect = MediaPlayer.create(this, R.raw.incorrecto)
+
         if (efectos) {
             //SE CREA LOS EFECTOS DE SONIDO
-            save("efecto", efectos)
+            PreferencesProvider.set(this, PreferencesKey.EFFECT, true)
         } else {
             //NO SE CREA NADA
-            save("efecto", efectos)
+            PreferencesProvider.set(this, PreferencesKey.EFFECT, false)
         }
     }
 
@@ -122,7 +105,7 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
             sonido = true
             mp?.start()
         }
-        save("sonido", sonido)
+        PreferencesProvider.set(this, PreferencesKey.SOUND, sonido)
     }
 
     override fun cambiaValorEfectos() {
@@ -131,7 +114,7 @@ class MainActivity : AppCompatActivity(), Sonido, Efectos, ReemplazaFragment {
         } else {
             efectos = true
         }
-        save("efecto", efectos)
+        PreferencesProvider.set(this, PreferencesKey.EFFECT, efectos)
     }
 
     override fun correct() {
