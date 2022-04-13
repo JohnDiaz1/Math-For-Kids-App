@@ -37,7 +37,7 @@ allprojects {
             applicationId "com.towo.AnimalesApp"
             minSdkVersion 19
             targetSdkVersion 32
-            versionCode 29
+            versionCode 30
             versionName "1.2.5"
             multiDexEnabled true
 

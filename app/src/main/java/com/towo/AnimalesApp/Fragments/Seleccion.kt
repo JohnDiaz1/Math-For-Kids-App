@@ -338,7 +338,8 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
                 startActivity(
                     Intent(
                         Intent.ACTION_VIEW,
-                        Uri.parse("https://towogames.com/politics.html")
+                        //Uri.parse("https://towogames.com/politics.html")
+                    Uri.parse("https://towogemus.000webhostapp.com/politica.html")
                     )
                 )
             }
@@ -513,7 +514,8 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://towogames.com/terms.html")
+                    //Uri.parse("https://towogames.com/terms.html")
+                Uri.parse("https://towogemus.000webhostapp.com/terminos.html")
                 )
             )
         }
@@ -522,7 +524,8 @@ class Seleccion : Fragment(), PurchasesUpdatedListener, InterstitialListener {
             startActivity(
                 Intent(
                     Intent.ACTION_VIEW,
-                    Uri.parse("https://towogames.com/politics.html")
+                    //Uri.parse("https://towogames.com/politics.html")
+                Uri.parse("https://towogemus.000webhostapp.com/politica.html")
                 )
             )
         }
